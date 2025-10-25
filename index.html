@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABC Company - Inventory Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Screen -->
+        <div id="loginScreen" class="screen active">
+            <div class="login-container">
+                <h1>ABC Company Inventory System</h1>
+                <form id="loginForm">
+                    <input type="text" id="username" placeholder="Username" required>
+                    <input type="password" id="password" placeholder="Password" required>
+                    <select id="location" required>
+                        <option value="">Select Location</option>
+                        <option value="head_office">Head Office - City X</option>
+                        <option value="plant_y">Manufacturing Plant Y</option>
+                        <option value="plant_z">Manufacturing Plant Z</option>
+                    </select>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div id="dashboardScreen" class="screen">
+            <header>
+                <h1>ABC Inventory Management</h1>
+                <div class="user-info">
+                    <span id="currentUser"></span>
+                    <span id="currentLocation"></span>
+                    <button id="logoutBtn">Logout</button>
+                </div>
+            </header>
+
+            <nav class="main-nav">
+                <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+                <button class="nav-btn" data-section="inventory">Inventory</button>
+                <button class="nav-btn" data-section="transactions">Transactions</button>
+                <button class="nav-btn" data-section="reports">Reports</button>
+                <button class="nav-btn" data-section="settings">Settings</button>
+            </nav>
+
+            <main id="mainContent">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="content-section active">
+                    <div class="dashboard-grid">
+                        <div class="card">
+                            <h3>Total Products</h3>
+                            <div class="metric" id="totalProducts">0</div>
+                        </div>
+                        <div class="card">
+                            <h3>Low Stock Items</h3>
+                            <div class="metric alert" id="lowStockItems">0</div>
+                        </div>
+                        <div class="card">
+                            <h3>Recent Transactions</h3>
+                            <div class="metric" id="recentTransactions">0</div>
+                        </div>
+                        <div class="card">
+                            <h3>Pending Orders</h3>
+                            <div class="metric" id="pendingOrders">0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="alerts-section">
+                        <h3>System Alerts</h3>
+                        <div id="alertsList"></div>
+                    </div>
+                </section>
+
+                <!-- Inventory Section -->
+                <section id="inventory" class="content-section">
+                    <div class="section-header">
+                        <h2>Inventory Management</h2>
+                        <button id="addProductBtn" class="btn-primary">Add Product</button>
+                    </div>
+                    
+                    <div class="filters">
+                        <input type="text" id="searchProduct" placeholder="Search products...">
+                        <select id="categoryFilter">
+                            <option value="">All Categories</option>
+                            <option value="raw_material">Raw Materials</option>
+                            <option value="component">Components</option>
+                            <option value="finished_good">Finished Goods</option>
+                        </select>
+                    </div>
+
+                    <table id="inventoryTable">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Current Stock</th>
+                                <th>Reorder Point</th>
+                                <th>Unit Cost</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryTableBody"></tbody>
+                    </table>
+                </section>
+
+                <!-- Transactions Section -->
+                <section id="transactions" class="content-section">
+                    <div class="section-header">
+                        <h2>Inventory Transactions</h2>
+                        <button id="addTransactionBtn" class="btn-primary">New Transaction</button>
+                    </div>
+
+                    <div class="transaction-form" id="transactionForm" style="display: none;">
+                        <h3>Add Transaction</h3>
+                        <form id="newTransactionForm">
+                            <select id="transactionType" required>
+                                <option value="">Select Type</option>
+                                <option value="receipt">Receipt</option>
+                                <option value="issue">Issue</option>
+                                <option value="transfer">Transfer</option>
+                                <option value="adjustment">Adjustment</option>
+                            </select>
+                            <select id="transactionProduct" required></select>
+                            <input type="number" id="transactionQuantity" placeholder="Quantity" required>
+                            <input type="text" id="transactionReference" placeholder="Reference Number">
+                            <textarea id="transactionNotes" placeholder="Notes"></textarea>
+                            <div class="form-actions">
+                                <button type="submit">Add Transaction</button>
+                                <button type="button" id="cancelTransaction">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <table id="transactionsTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Reference</th>
+                                <th>User</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsTableBody"></tbody>
+                    </table>
+                </section>
+
+                <!-- Reports Section -->
+                <section id="reports" class="content-section">
+                    <h2>Reports & Analytics</h2>
+                    <div class="reports-grid">
+                        <div class="report-card">
+                            <h3>Inventory Summary</h3>
+                            <button onclick="generateInventoryReport()">Generate Report</button>
+                        </div>
+                        <div class="report-card">
+                            <h3>Low Stock Report</h3>
+                            <button onclick="generateLowStockReport()">Generate Report</button>
+                        </div>
+                        <div class="report-card">
+                            <h3>Transaction History</h3>
+                            <button onclick="generateTransactionReport()">Generate Report</button>
+                        </div>
+                    </div>
+                    <div id="reportOutput"></div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="content-section">
+                    <h2>System Settings</h2>
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <h3>User Management</h3>
+                            <button onclick="showUserManagement()">Manage Users</button>
+                        </div>
+                        <div class="setting-group">
+                            <h3>System Backup</h3>
+                            <button onclick="backupData()">Backup Data</button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Product Modal -->
+        <div id="productModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="modalTitle">Add Product</h2>
+                <form id="productForm">
+                    <input type="hidden" id="productId">
+                    <input type="text" id="productName" placeholder="Product Name" required>
+                    <select id="productCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="raw_material">Raw Material</option>
+                        <option value="component">Component</option>
+                        <option value="finished_good">Finished Good</option>
+                    </select>
+                    <input type="text" id="productUnit" placeholder="Unit (e.g., pieces, kg)" required>
+                    <input type="number" id="productReorderPoint" placeholder="Reorder Point" required>
+                    <input type="number" step="0.01" id="productUnitCost" placeholder="Unit Cost" required>
+                    <input type="number" id="initialStock" placeholder="Initial Stock Quantity">
+                    <div class="form-actions">
+                        <button type="submit">Save Product</button>
+                        <button type="button" class="cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
