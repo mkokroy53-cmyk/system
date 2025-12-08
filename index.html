@@ -22,6 +22,9 @@
                         <option value="plant_z">Manufacturing Plant Z</option>
                     </select>
                     <button type="submit">Login</button>
+                    <div class="forgot-password">
+                        <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+                    </div>
                 </form>
             </div>
         </div>
@@ -184,6 +187,28 @@
                     </div>
                 </section>
             </main>
+        </div>
+
+        <!-- Forgot Password Modal -->
+        <div id="forgotPasswordModal" class="modal">
+            <div class="modal-content">
+                <span class="close-forgot">&times;</span>
+                <h2>Reset Password</h2>
+                <form id="forgotPasswordForm">
+                    <input type="text" id="resetUsername" placeholder="Enter Username" required>
+                    <select id="resetLocation" required>
+                        <option value="">Select Location</option>
+                        <option value="head_office">Head Office - City X</option>
+                        <option value="plant_y">Manufacturing Plant Y</option>
+                        <option value="plant_z">Manufacturing Plant Z</option>
+                    </select>
+                    <div class="form-actions">
+                        <button type="submit">Reset Password</button>
+                        <button type="button" class="cancel-forgot">Cancel</button>
+                    </div>
+                </form>
+                <div id="resetResult" style="display: none;"></div>
+            </div>
         </div>
 
         <!-- Product Modal -->

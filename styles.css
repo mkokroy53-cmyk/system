@@ -69,6 +69,21 @@ body {
     background: #5a6fd8;
 }
 
+.forgot-password {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.forgot-password a {
+    color: #667eea;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
 /* Header */
 header {
     background: #2c3e50;
@@ -374,12 +389,31 @@ tr:hover {
     color: #000;
 }
 
-#productForm input, #productForm select {
+#productForm input, #productForm select, #forgotPasswordForm input, #forgotPasswordForm select {
     width: 100%;
     padding: 10px;
     margin: 8px 0;
     border: 1px solid #ddd;
     border-radius: 4px;
+}
+
+#resetResult {
+    margin-top: 1rem;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+#resetResult.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+#resetResult.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }
 
 /* Action Buttons */

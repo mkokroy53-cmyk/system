@@ -88,6 +88,25 @@ class InventoryManagementSystem {
         document.querySelector('.cancel').addEventListener('click', () => {
             this.closeModal();
         });
+
+        // Forgot password
+        document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            this.showForgotPasswordModal();
+        });
+
+        document.getElementById('forgotPasswordForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handlePasswordReset();
+        });
+
+        document.querySelector('.close-forgot').addEventListener('click', () => {
+            this.closeForgotPasswordModal();
+        });
+
+        document.querySelector('.cancel-forgot').addEventListener('click', () => {
+            this.closeForgotPasswordModal();
+        });
     }
 
     loadSampleData() {
@@ -389,6 +408,44 @@ class InventoryManagementSystem {
 
     closeModal() {
         document.getElementById('productModal').style.display = 'none';
+    }
+
+    showForgotPasswordModal() {
+        document.getElementById('forgotPasswordModal').style.display = 'block';
+    }
+
+    closeForgotPasswordModal() {
+        document.getElementById('forgotPasswordModal').style.display = 'none';
+        document.getElementById('forgotPasswordForm').reset();
+        document.getElementById('resetResult').style.display = 'none';
+    }
+
+    handlePasswordReset() {
+        const username = document.getElementById('resetUsername').value;
+        const location = document.getElementById('resetLocation').value;
+        const resultDiv = document.getElementById('resetResult');
+
+        if (!username || !location) {
+            this.showResetResult('Please fill in all fields', 'error');
+            return;
+        }
+
+        const user = this.users.find(u => u.username === username);
+        
+        if (user) {
+            // In a real system, this would send an email
+            // For demo purposes, we'll show the password
+            this.showResetResult(`Password reset successful! Your password is: ${user.password}`, 'success');
+        } else {
+            this.showResetResult('Username not found', 'error');
+        }
+    }
+
+    showResetResult(message, type) {
+        const resultDiv = document.getElementById('resetResult');
+        resultDiv.textContent = message;
+        resultDiv.className = type;
+        resultDiv.style.display = 'block';
     }
 
     saveProduct() {
